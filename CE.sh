@@ -12,20 +12,19 @@
 ## Config: ##
 ##
 # Here's where you should enter the Cheat Engine version that is installed.
-# For this example, Cheat Engine 7.4, the experimental branch of Proton are being used as examples.
+# For this example, Cheat Engine 7.6, the experimental branch of Proton are being used as examples.
 # Another example you can use instead of "Proton - Experimental" for the Proton Version name is "Proton 3.7", however, instead of using "files" for the Proton Subdirectory name, you would use "dist" instead.
-CEVersion="7.4"
 PROTONVERSIONNAME="Proton - Experimental"
-PROTONSUBDIRECTORYNAME="files"
+PROTONSUBDIRECTORYNAME="files" # sometimes "dist" or "files"
 
 # This is where you should put the Steam library that you are running the game from, as the compatdata directory with the required Proton prefix will be there.
-# For the local Steam install folder, this would be "/home/$USER/.steam/steam".
-prefixInstall="/home/$USER/.steam/steam"
+# For the local Steam install folder, this would be "$HOME/.steam/steam".
+prefixInstall="$HOME/.local/share/Steam"
 
 # These shouldn't change unless you installed Cheat Engine in a Wine prefix somewhere else.
 # By default, you will either need WINE installed separately with Cheat Engine installed in it, or you will need to copy the CE program files needed to your Proton Prefix.
-steamInstall="/home/$USER/.steam/"
-CEPrefix="/home/$USER/.wine"
+steamInstall="$HOME/.local/share/Steam"
+CEPrefix="$HOME/.wine"
 
 # Here's some flags you can tweak, although IIRC, ESync and FSync are required for Cheat Engine to function.
 proton=$2
@@ -57,7 +56,7 @@ function checkProcess()
         echo "Starting Cheat Engine..."
         sleep 10 # Sleeps the rest for ten seconds to let the game have some time to launch.
         # Starts Cheat Engine using the currently used Proton prefix.
-        "$steamInstall/steam/steamapps/common/$PROTONVERSIONNAME/$PROTONSUBDIRECTORYNAME/bin/wine" "$CEPrefix/drive_c/Program Files/Cheat Engine $CEVersion/cheatengine-x86_64.exe"
+        "$steamInstall/steamapps/common/$PROTONVERSIONNAME/$PROTONSUBDIRECTORYNAME/bin/wine" "$CEPrefix/drive_c/Program Files/Cheat Engine/cheatengine-x86_64.exe"
         $LAUNCHED == 1
     else
         TIMES_TRIED=$(( TIMES_TRIED + 1)) # Adds a try to the amount of tries that have been done.
@@ -85,7 +84,7 @@ function checkIfGameRunning()
 
 if [ -d "$WINEPREFIX" ]
 then
-    if [ -d "$steamInstall/steam/steamapps/common/$PROTONVERSIONNAME/$PROTONSUBDIRECTORYNAME/" ]
+    if [ -d "$steamInstall/steamapps/common/$PROTONVERSIONNAME/$PROTONSUBDIRECTORYNAME/" ]
     then
         xdg-open steam://run/$STEAMAPPID # Tells Steam to launch the game
         checkProcess # Starts the process checking function.
